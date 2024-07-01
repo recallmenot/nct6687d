@@ -286,3 +286,8 @@ kernel: nct6687: EC base I/O port unconfigured
 systemd-modules-load[339]: Failed to insert module 'nct6687': No such device
 ```
 * add `softdep nct6687 pre: i2c_i801` to e.g. `/etc/modprobe.d/sensors.conf`.
+
+### sensors-detect overlap with nct6683 module
+`sudo sensors-detect` will configure the nct6683 module to load for the nct6687 chip, ignoring this kernel module, and feigning the nct6687 name.
+This results in fan controll software having difficulty differentiating between the two.
+To disable it after `sensors-detect`, remove `nct6683` from `HWMON_MODULES` of the generated `/etc/conf.d/lm_sensors`.
